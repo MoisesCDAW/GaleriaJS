@@ -1,4 +1,8 @@
-const API = "https://api.pexels.com/v1/search?query=";
+// Filtros Imágenes: Por orientación (landscape, portrait o square) o color (ej: red, orange, etc...)
+// Filtros Videos: Por orientación (landscape, portrait o square) o por tamaño (ej: large, medium o small)
+
+// const API = "https://api.pexels.com/v1/search?query=nature";
+const API = "https://api.pexels.com/videos/search?query=nature";
 let datosAPI;
 
 
@@ -28,4 +32,4 @@ async function obtenerDatos(API) {
         });
 }
 
-obtenerDatos(API+"nature");
+obtenerDatos(API);
