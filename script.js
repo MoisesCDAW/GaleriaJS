@@ -6,6 +6,10 @@ const API = "https://api.pexels.com/videos/search?query=nature";
 let datosAPI;
 
 
+/**
+ * Permite consultar recursos de una API. La consulta se gestiona con Fetch
+ * @param {String} API que se consultará
+ */
 async function obtenerDatos(API) {
     fetch(API, {
         headers: {Authorization: "bt7O8cBT2GxgAPoNGeOjEHukUu3IxrVJiBTiMQg0iNTnomw6qAx6VCM9"}
@@ -24,7 +28,6 @@ async function obtenerDatos(API) {
         // Tomamos los datos y los guardamos en una variable global "Datos"
         .then(datos => {
             datosAPI = datos;
-            console.log(datosAPI);
         })
 
         .catch(err => {
@@ -32,4 +35,4 @@ async function obtenerDatos(API) {
         });
 }
 
-obtenerDatos(API);
+// obtenerDatos(API);
