@@ -35,7 +35,7 @@ header {
     a {
         text-decoration: none;
         color: $textOscuro; 
-        font-size: 42px;
+        font-size: 32px;
         letter-spacing: .5px;
     }
 
@@ -45,7 +45,7 @@ header {
         gap: 10%;
 
         img {
-            width: 48px;
+            width: 38px;
         }
     }
 
@@ -61,24 +61,76 @@ header {
 nav {
     box-shadow: 0px 2px 7px rgba(0, 0, 0, 0.155);
     border-radius: 50px;
-    width: 16%;
-    padding: 1%;
-    padding-top: .5%;
-    padding-bottom: .5%;
+    min-width: 270px;
+    min-height: 45px;
     display: flex;
     justify-content: center;
+    align-items: center;
     gap: 4%;
 
     a {
         color: $textClaro;
         background-color: $principal;
         font-size: 18px;
-        padding: 4%;
-        padding-left: 15%;
-        padding-right: 15%;
         border-radius: 50px;
+        min-width: 120px;
+        min-height: 30px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
     }
 }
 
 
-// ============  ==============
+// ============ Central: Título, descripción, barra de búsqueda y accesos rápidos ==============
+.centro {
+    border: 2px solid red;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+    h1 {
+        color: $principal;
+        text-align: center;
+        max-width: 600px;
+        font-size: 32px;
+        font-weight: 100;
+    }
+
+    p {
+        text-align: center;
+        max-width: 500px;
+        color: rgba(0, 0, 0, 0.659);
+    }
+
+    // ===== Barra de búsqueda ==== 
+    .barra-busqueda {
+        border: 2px solid red;
+        min-width: 800px;
+        min-height: 50px;
+        border-radius: 50px;
+        display: flex;
+        align-items: center;
+        padding-inline: 20px;
+
+        .filtro {
+            display: flex;
+            align-items: center;
+            
+            button {
+                background: none;
+                border: none;
+                max-width: 26px;
+                max-height: 26px;
+    
+                img {
+                    max-width: 26px;
+                    max-height: 26px;
+                }
+            }
+        }
+
+
+    }
+}
