@@ -7,7 +7,8 @@
 $fuentePrincipal: Manjari;
 
 // ==== COLORES ====
-$principal: #3300CC;
+$principal: #3399FF;
+$secundario: #2961AE;
 $textOscuro: black;
 $textClaro: white;
 
@@ -96,7 +97,7 @@ nav {
 // ============ Central: Título, descripción, barra de búsqueda y accesos rápidos ==============
 .centro {
     width: 100%;
-    min-height: 600px;
+    min-height: 500px;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -106,20 +107,12 @@ nav {
     background-attachment: fixed;
 
     h1 {
-        margin-top: 50px;
         color: white;
         text-align: center;
         max-width: 600px;
         font-size: 32px;
         font-weight: 600;
         letter-spacing: 1px;
-    }
-
-    p {
-        text-align: center;
-        max-width: 600px;
-        color: black;
-        display: none;
     }
 
     // ===== Barra de búsqueda ==== 
@@ -226,20 +219,25 @@ nav {
     align-items: center;
 
     .titulo {
-        margin-top: 50px;
-        box-shadow: $sombraPrinc;
-        border-radius: 50px;
-        width: 300px;
+        margin-top: 4%;
+        width: 250px;
         height: 50px;
+        // font-size: 18px;
         display: flex;
         justify-content: center;
         align-items: center;
     }
 
+    p {
+        text-align: center;
+        max-width: 600px;
+        color: black;
+    }
+
     .galeria {
         margin-top: 50px;
         display: grid;
-        grid-template-columns: repeat(5, 1fr);
+        grid-template-columns: repeat(4, 1fr);
         justify-content: center;
         gap: 1%;
 
@@ -253,11 +251,18 @@ nav {
             }
         }
 
-        h1 {
+        .frases {
+            background-color: rgba(128, 128, 128, 0.108);
+            border-radius: 10px;
+            padding: 10%;
             display: flex;
-            padding-left: 20px;
-            align-items: center;
-            font-size: 22px;
+            justify-content: center;
+
+            p {
+                font-family: $fuentePrincipal;
+                display: flex;
+                align-items: center;
+            }
         }
     }
 }

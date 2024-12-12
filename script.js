@@ -28,9 +28,8 @@ function constructor_galeria(datosAPI){
     let galeria = document.querySelector(".galeria");
 
     imagenes.forEach((imagen)=>{
-        console.log(imagen.url);
         let content = crearElemento("div");
-        let img = crearElemento("img", {src:imagen.url});
+        let img = crearElemento("img", {src:imagen.src.portrait});
 
         galeria.append(content);
         content.append(img);
@@ -80,5 +79,5 @@ function ubicacion() {
     }
 }
 
-obtenerDatos(APIDefecto);
+// obtenerDatos(APIDefecto);
 ubicacion();
