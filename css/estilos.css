@@ -72,7 +72,7 @@ nav .pag-no-actual {
 
 .centro {
   width: 100%;
-  min-height: 400px;
+  min-height: 600px;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -88,6 +88,7 @@ nav .pag-no-actual {
   max-width: 600px;
   font-size: 32px;
   font-weight: 600;
+  letter-spacing: 1px;
 }
 .centro p {
   text-align: center;
@@ -173,4 +174,59 @@ nav .pag-no-actual {
 }
 .centro .accesos-rapidos .acceso span {
   font-size: 14px;
+}
+
+.content-galeria {
+  padding-inline: 20%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.content-galeria .titulo {
+  margin-top: 50px;
+  box-shadow: 0px 2px 7px rgba(0, 0, 0, 0.155);
+  border-radius: 50px;
+  width: 300px;
+  height: 50px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.content-galeria .galeria {
+  margin-top: 50px;
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  justify-content: center;
+  gap: 1%;
+}
+.content-galeria .galeria div {
+  width: 300px;
+  height: 350px;
+}
+.content-galeria .galeria div img {
+  width: 300px;
+  height: 350px;
+  border-radius: 10px;
+}
+.content-galeria .galeria h1 {
+  display: flex;
+  padding-left: 20px;
+  align-items: center;
+  font-size: 22px;
+}
+
+footer {
+  margin-top: 100px;
+  width: 100%;
+  height: 60px;
+  background: 0 40%/cover url("../img/cielo.jpg") no-repeat;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+footer h1 {
+  font-size: 20px;
+  color: white;
+  letter-spacing: 1px;
+  font-weight: 100;
 }/*# sourceMappingURL=estilos.css.map */
