@@ -31,13 +31,14 @@ body {
 // ============ CABECERA y acceso a fotos, videos y recursos guardados ==============
 header {
     width: 100%;
-    padding: 2%;
+    padding: .8%;
     display: flex;
     justify-content: space-around;
+    position: absolute;
 
     a {
         text-decoration: none;
-        color: $textOscuro; 
+        color: $textClaro; 
         font-size: 32px;
         letter-spacing: .5px;
     }
@@ -71,6 +72,7 @@ nav {
     justify-content: center;
     align-items: center;
     gap: 3%;
+    background-color: white;
 
     a {
         color: $textClaro;
@@ -100,19 +102,23 @@ nav {
     align-items: center;
     justify-content: center;
     gap: 35px;
+    background: 0 250%/cover url("../img/cielo.jpg") no-repeat;
+    background-attachment: fixed;
 
     h1 {
-        color: $principal;
+        margin-top: 50px;
+        color: white;
         text-align: center;
         max-width: 600px;
         font-size: 32px;
-        font-weight: 100;
+        font-weight: 600;
     }
 
     p {
         text-align: center;
-        max-width: 500px;
-        color: rgba(0, 0, 0, 0.659);
+        max-width: 600px;
+        color: black;
+        display: none;
     }
 
     // ===== Barra de búsqueda ==== 
@@ -123,6 +129,7 @@ nav {
         box-shadow: $sombraPrinc;
         display: flex;
         align-items: center;
+        background-color: white;
 
         .filtro {
             width: 180px;
@@ -186,6 +193,7 @@ nav {
         gap: 20px;
 
         .acceso {
+            background-color: white;
             width: 100px;
             height: 80px;
             border-radius: 10px;
