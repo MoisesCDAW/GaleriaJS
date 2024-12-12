@@ -36,3 +36,13 @@ async function obtenerDatos(API) {
 }
 
 // obtenerDatos(API);
+
+function ubicacion() {
+    if (document.querySelector("title").textContent=="Fotos") {
+        document.querySelector("#videos").classList.toggle("pag-no-actual");
+    }else {
+        document.querySelector("#fotos").classList.toggle("pag-no-actual");
+    }
+}
+
+ubicacion();

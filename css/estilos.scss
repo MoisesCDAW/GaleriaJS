@@ -11,6 +11,9 @@ $principal: #3300CC;
 $textOscuro: black;
 $textClaro: white;
 
+// ==== SOMBRAS ====
+$sombraPrinc: 0px 2px 7px rgba(0, 0, 0, 0.155);
+$sombraSecund: 0px 2px 5px rgba(0, 0, 0, 0.302);
 
 * {
     margin: 0;
@@ -43,6 +46,7 @@ header {
         display: flex;
         align-items: center;
         gap: 10%;
+        width: 200px;
 
         img {
             width: 38px;
@@ -50,7 +54,7 @@ header {
     }
 
     #guardados {
-        font-size: 22px;
+        font-size: 18px;
     }
 
     #img-guardados {
@@ -59,19 +63,19 @@ header {
 }
 
 nav {
-    box-shadow: 0px 2px 7px rgba(0, 0, 0, 0.155);
+    box-shadow: $sombraPrinc;
     border-radius: 50px;
     min-width: 270px;
     min-height: 45px;
     display: flex;
     justify-content: center;
     align-items: center;
-    gap: 4%;
+    gap: 3%;
 
     a {
         color: $textClaro;
         background-color: $principal;
-        font-size: 18px;
+        font-size: 14px;
         border-radius: 50px;
         min-width: 120px;
         min-height: 30px;
@@ -79,16 +83,23 @@ nav {
         align-items: center;
         justify-content: center;
     }
+
+    .pag-no-actual {
+        background: none;
+        color: black;
+    }
 }
 
 
 // ============ Central: Título, descripción, barra de búsqueda y accesos rápidos ==============
 .centro {
-    border: 2px solid red;
     width: 100%;
+    min-height: 400px;
     display: flex;
     flex-direction: column;
     align-items: center;
+    justify-content: center;
+    gap: 35px;
 
     h1 {
         color: $principal;
@@ -106,31 +117,92 @@ nav {
 
     // ===== Barra de búsqueda ==== 
     .barra-busqueda {
-        border: 2px solid red;
         min-width: 800px;
         min-height: 50px;
         border-radius: 50px;
+        box-shadow: $sombraPrinc;
         display: flex;
         align-items: center;
-        padding-inline: 20px;
 
         .filtro {
+            width: 180px;
+            border-right: 2px solid rgba(0, 0, 0, 0.257);
+            height: 50px;
+            padding-inline: 20px;
             display: flex;
             align-items: center;
+            gap: 15px;
+            cursor: pointer;
             
             button {
                 background: none;
                 border: none;
-                max-width: 26px;
-                max-height: 26px;
+                padding: 0;
+                cursor: pointer;
     
                 img {
-                    max-width: 26px;
-                    max-height: 26px;
+                    max-width: 20px;
+                    max-height: 20px;
                 }
             }
         }
 
+        .input-busqueda {
+            width: 100%;
+            margin-inline: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
 
+            input {
+                margin-left: 15px;
+                width: 300px;
+                height: 30px;
+                border: none;
+                outline: none;
+            }
+    
+            button {
+                background-color: $principal;
+                border: none;
+                width: 100px;
+                border-radius: 50px;
+                padding: 5px;
+                padding-inline: 0;
+                cursor: pointer;
+    
+                img {
+                    max-width: 22px;
+                }
+            }
+        }
+    }
+
+    // ===== Accesos rápidos ==== 
+    .accesos-rapidos {
+        width: 100%;
+        display: flex;
+        justify-content: center;
+        gap: 20px;
+
+        .acceso {
+            width: 100px;
+            height: 80px;
+            border-radius: 10px;
+            box-shadow: $sombraSecund;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+
+            img {
+                width: 32px;
+            }
+
+            span {
+                font-size: 14px;
+            }
+        }
     }
 }

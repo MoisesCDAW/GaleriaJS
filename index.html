@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Galería</title>
+    <title>Fotos</title>
     <link rel="stylesheet" href="css/estilos.css">
 </head>
 <body>
@@ -16,8 +16,8 @@
 
         <!-- Botones de búsqueda por tipo de recurso -->
         <nav>
-            <a href="index.html">Fotos</a>
-            <a href="videos.html">Videos</a>
+            <a href="index.html" id="fotos">Fotos</a>
+            <a href="videos.html" id="videos">Videos</a>
         </nav>
 
         <!-- Sección de recursos guardados -->
@@ -39,12 +39,37 @@
             <!-- Filtros -->
             <div class="filtro">
                 <button><img src="img/ajustes.png"></button>
-                <span>Filtro</span>
+                <span>Filtros</span>
             </div>
 
-            <input type="text" placeholder="Busca en todos los recursos">
+            <!-- Barra y botón de búsqueda -->
+            <div class="input-busqueda">
+                <input type="text" placeholder="Busca en todos los recursos">
+                <button><img src="img/busqueda.png"></button>
+            </div>
+        </div>
 
-            <button><img src="img/busqueda.png"></button>
+        <!-- Accesos rápidos -->
+        <div class="accesos-rapidos">
+            <div class="acceso">
+                <img src="img/banco.png">
+                <span>Negocios</span>
+            </div>
+
+            <div class="acceso">
+                <img src="img/gaming.png">
+                <span>Juegos</span>
+            </div>
+
+            <div class="acceso">
+                <img src="img/libros.png">
+                <span>Estudios</span>
+            </div>
+
+            <div class="acceso">
+                <img src="img/natural.png">
+                <span>Paisajes</span>
+            </div>
         </div>
     
     </section>
