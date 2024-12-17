@@ -237,6 +237,7 @@ nav {
 
             h1 {
                 color: $textOscuro;
+                font-size: 22px;
             }
         }
 
@@ -261,15 +262,57 @@ nav {
         div {
             width: 300px;
             height: 350px;
+            display: flex;
+            flex-direction: column;
 
-            img, video {
+            .foto, video{
                 width: 300px;
                 height: 350px;
-                border-radius: 10px;    
+                object-fit: cover;
+                border-radius: 10px;
+                position: absolute;
+            }
+
+            .accion {
+                align-self: flex-end;
+                padding: 5%;
+
+                button {
+                    opacity: 0.8;
+                    visibility: hidden;
+                    border: none;
+                    border-radius: 50px;
+                    background-color: white;
+                    width: 34px;
+                    height: 34px;
+                    z-index: 1;
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                    cursor: pointer;
+                    margin-bottom: 6%;
+                }
+
+                img{
+                    border-radius: 0;
+                    width: 16px;
+                    height: 16px;
+                }
+            }
+
+        }
+
+        div:hover {
+            .foto {
+                opacity: 0.8;
+            }
+            .descargar, .guardar {
+                visibility: visible;
             }
         }
 
         .frases {
+            box-shadow: $sombraPrinc;
             background: url("../img/frases.png");
             border-radius: 10px;
             padding: 10%;

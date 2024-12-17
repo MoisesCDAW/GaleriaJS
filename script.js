@@ -55,7 +55,7 @@ const APIDefectoFotos = "https://api.pexels.com/v1/search?query=sky";
 /**
  * API para mostrar videos por defecto al cargar la página en la sección "Videos"
  */
-const APIDefectoVideos = "https://api.pexels.com/videos/search?query=nature";
+const APIDefectoVideos = "https://api.pexels.com/videos/search?query=sky&orientation=portrait";
 
 
 /**
@@ -107,7 +107,7 @@ function crearGaleriaVideos(datosAPI){
     // Construye los contenedores para cada foto y asigna la foto
     videos.forEach((video)=>{
         let content = crearElemento("div");
-        let vid = crearElemento("video", {src:video.video_files[1].link, controls:"controls"});
+        let vid = crearElemento("video", {src:video.video_files[1].link});
 
         galeria.append(content);
         content.append(vid);
@@ -125,10 +125,18 @@ function crearGaleriaFotos(datosAPI){
     // Construye los contenedores para cada foto y asigna la foto
     imagenes.forEach((imagen)=>{
         let content = crearElemento("div");
-        let img = crearElemento("img", {src:imagen.src.portrait});
+        let foto = crearElemento("img", {src:imagen.src.portrait}, ["foto"]);
+        let accion = crearElemento("div", {}, ["accion"]);
+        let descargar = crearElemento("button", {}, ["accion", "descargar"]);
+        let imgDescargar = crearElemento("img", {src:"img/descargar.svg"});
+        let guardar = crearElemento("button", {}, ["accion", "guardar"]);
+        let imgGuardar = crearElemento("img", {src:"img/guardar.svg"});
 
         galeria.append(content);
-        content.append(img);
+        content.append(foto, accion);
+        accion.append(descargar, guardar);
+        descargar.append(imgDescargar);
+        guardar.append(imgGuardar);
     });
 
     // Agrega los contenedores para cada foto-frase y asigna la frase
@@ -179,7 +187,7 @@ function ubicacion() {
 
     }else {
         document.querySelector("#fotos").classList.toggle("pag-no-actual");
-        obtenerDatos(APIDefectoVideos).then(datosAPI => crearGaleriaVideos(datosAPI));
+        // obtenerDatos(APIDefectoVideos).then(datosAPI => crearGaleriaVideos(datosAPI));
     }
 }
 

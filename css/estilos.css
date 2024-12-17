@@ -195,6 +195,7 @@ nav .pag-no-actual {
 }
 .content-galeria .cabecera-galeria .titulo-galeria h1 {
   color: black;
+  font-size: 22px;
 }
 .content-galeria .cabecera-galeria .text-galeria {
   height: 80px;
@@ -215,13 +216,49 @@ nav .pag-no-actual {
 .content-galeria .galeria div {
   width: 300px;
   height: 350px;
+  display: flex;
+  flex-direction: column;
 }
-.content-galeria .galeria div img, .content-galeria .galeria div video {
+.content-galeria .galeria div .foto, .content-galeria .galeria div video {
   width: 300px;
   height: 350px;
+  -o-object-fit: cover;
+     object-fit: cover;
   border-radius: 10px;
+  position: absolute;
+}
+.content-galeria .galeria div .accion {
+  align-self: flex-end;
+  padding: 5%;
+}
+.content-galeria .galeria div .accion button {
+  opacity: 0.8;
+  visibility: hidden;
+  border: none;
+  border-radius: 50px;
+  background-color: white;
+  width: 34px;
+  height: 34px;
+  z-index: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  margin-bottom: 6%;
+}
+.content-galeria .galeria div .accion img {
+  border-radius: 0;
+  width: 16px;
+  height: 16px;
+}
+.content-galeria .galeria div:hover .foto {
+  opacity: 0.8;
+}
+.content-galeria .galeria div:hover .descargar, .content-galeria .galeria div:hover .guardar {
+  visibility: visible;
 }
 .content-galeria .galeria .frases {
+  box-shadow: 0px 2px 7px rgba(0, 0, 0, 0.155);
   background: url("../img/frases.png");
   border-radius: 10px;
   padding: 10%;
