@@ -89,6 +89,14 @@ function crearElemento(tipo, atributos={}, clases=[]){
 }
 
 
+/**
+ * Agrega frases a la galería, posicionándolas según los estilos definidos en cada objeto de frase.
+ * 
+ * @function addFrases
+ * @param {Array} frases - Un arreglo de objetos que contienen las frases y sus posiciones.
+ * @property {string} frases[].frase - El texto de la frase a agregar.
+ * @property {string} frases[].posicion - La posición CSS en la que se debe colocar la frase en la galería.
+ */
 function addFrases(frases) {
     frases.forEach((frase)=>{
         let content = crearElemento("div", {style:`grid-area: ${frase.posicion};`}, ["frases"]);
@@ -100,32 +108,24 @@ function addFrases(frases) {
 }
 
 
-function crearGaleriaVideos(datosAPI){
-    let videos = datosAPI.videos;
+/**
+ * Crea una galería multimedia (videos o fotos) y sus respectivas acciones (Descargar o Guardar).
+ * 
+ * @function crearGaleria
+ * @param {string} tipo - El tipo de contenido a mostrar. Puede ser 'video' o 'foto'.
+ * @param {Object} datosAPI - Objeto que contiene los datos de la API.
+ * @param {Array} frases - Frases a agregar a la galería (se usa en la función addFrases).
+ */
+function crearGaleria(tipo, datosAPI, frases) {
     let galeria = document.querySelector(".galeria");
 
-    // Construye los contenedores para cada foto y asigna la foto
-    videos.forEach((video)=>{
+    // Determina el tipo de contenido a mostrar (video o foto)
+    let elementos = tipo === 'video' ? datosAPI.videos : datosAPI.photos;
+
+    // Construye los contenedores para cada elemento y asigna el contenido
+    elementos.forEach((elemento) => {
         let content = crearElemento("div");
-        let vid = crearElemento("video", {src:video.video_files[1].link});
-
-        galeria.append(content);
-        content.append(vid);
-    });
-
-    // Agrega los contenedores para cada foto-frase y asigna la frase
-    addFrases(frasesVideos);
-}
-
-
-function crearGaleriaFotos(datosAPI){
-    let imagenes = datosAPI.photos;
-    let galeria = document.querySelector(".galeria");
-
-    // Construye los contenedores para cada foto y asigna la foto
-    imagenes.forEach((imagen)=>{
-        let content = crearElemento("div");
-        let foto = crearElemento("img", {src:imagen.src.portrait}, ["foto"]);
+        let media = tipo === 'video' ? crearElemento("video", {src: elemento.video_files[1].link}) : crearElemento("img", {src: elemento.src.portrait}, ["foto"]);
         let accion = crearElemento("div", {}, ["accion"]);
         let descargar = crearElemento("button", {}, ["accion", "descargar"]);
         let imgDescargar = crearElemento("img", {src:"img/descargar.svg"});
@@ -133,14 +133,14 @@ function crearGaleriaFotos(datosAPI){
         let imgGuardar = crearElemento("img", {src:"img/guardar.svg"});
 
         galeria.append(content);
-        content.append(foto, accion);
+        content.append(media, accion);
         accion.append(descargar, guardar);
         descargar.append(imgDescargar);
         guardar.append(imgGuardar);
     });
 
-    // Agrega los contenedores para cada foto-frase y asigna la frase
-    addFrases(frasesFotos);
+    // Agrega las frases según el tipo de galería
+    addFrases(frases);
 }
 
 
@@ -183,11 +183,11 @@ async function obtenerDatos(API) {
 function ubicacion() {
     if (document.querySelector("title").textContent=="Fotos") {
         document.querySelector("#videos").classList.toggle("pag-no-actual");
-        obtenerDatos(APIDefectoFotos).then(datosAPI => crearGaleriaFotos(datosAPI));
+        obtenerDatos(APIDefectoFotos).then(datosAPI => crearGaleria('foto', datosAPI, frasesFotos));
 
     }else {
         document.querySelector("#fotos").classList.toggle("pag-no-actual");
-        // obtenerDatos(APIDefectoVideos).then(datosAPI => crearGaleriaVideos(datosAPI));
+        obtenerDatos(APIDefectoVideos).then(datosAPI => crearGaleria('video', datosAPI, frasesVideos));
     }
 }
 
