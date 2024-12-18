@@ -178,6 +178,15 @@ nav {
         }
     }
 
+    // ===== Notas =====
+    .notas {
+        p {
+            color: $textClaro;
+            font-family: $fuentePrincipal;
+            font-size: 14px;
+        }
+    }
+
     // ===== Accesos rápidos ==== 
     .accesos-rapidos {
         width: 100%;

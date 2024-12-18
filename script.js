@@ -58,6 +58,15 @@ const APIDefectoFotos = "https://api.pexels.com/v1/search?query=sky";
 const APIDefectoVideos = "https://api.pexels.com/videos/search?query=sky&orientation=portrait";
 
 
+// Gestor de búsquedas
+/*
+1. Verificar el título de la página y gestionar que API usar
+    a. Fotos: https://api.pexels.com/v1/search?query=
+    b. https://api.pexels.com/videos/search?query= ... &orientation=portrait
+2. Validar el input. Solo se permitirá texto sin espacios
+*/
+
+
 /**
  * Crea un nuevo elemento HTML con los atributos y clases proporcionadas.
  *
@@ -191,4 +200,6 @@ function ubicacion() {
     }
 }
 
+
+// ================ INICIO ===============
 ubicacion();

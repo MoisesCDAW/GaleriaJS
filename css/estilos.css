@@ -144,6 +144,11 @@ nav .pag-no-actual {
 .centro .barra-busqueda .input-busqueda button img {
   max-width: 22px;
 }
+.centro .notas p {
+  color: white;
+  font-family: Manjari;
+  font-size: 14px;
+}
 .centro .accesos-rapidos {
   width: 100%;
   display: flex;
