@@ -224,7 +224,7 @@ nav .pag-no-actual {
   display: flex;
   flex-direction: column;
 }
-.content-galeria .galeria div .foto, .content-galeria .galeria div video {
+.content-galeria .galeria div .foto, .content-galeria .galeria div .video {
   width: 300px;
   height: 350px;
   -o-object-fit: cover;

@@ -58,13 +58,57 @@ const APIDefectoFotos = "https://api.pexels.com/v1/search?query=sky";
 const APIDefectoVideos = "https://api.pexels.com/videos/search?query=sky&orientation=portrait";
 
 
-// Gestor de búsquedas
-/*
-1. Verificar el título de la página y gestionar que API usar
-    a. Fotos: https://api.pexels.com/v1/search?query=
-    b. https://api.pexels.com/videos/search?query= ... &orientation=portrait
-2. Validar el input. Solo se permitirá texto sin espacios
-*/
+/**
+ * JSDoc
+ */
+function gestorBusquedas(){
+    let texto = document.querySelector(".texto");
+
+    // Limpia la galería para mostrar los nuevos resultados
+    const limpiarGaleria = ()=>{
+        document.querySelector(".galeria").remove();
+        let contentGaleria = document.querySelector(".content-galeria");
+        let galeria = crearElemento("div", {}, ["galeria"]);
+        contentGaleria.append(galeria);
+    }
+
+
+    // Valida el texto introducido
+    let expresion = /^[a-zA-Z]+$/;
+    if (!expresion.test(texto.value)) {
+        alert("Debes ingresar una palabra sin espacios ni números y solo letras");
+
+    }else {
+        limpiarGaleria();
+        let API;
+
+        // Verifica que API se debe consultar según la página en la que se haga la búsqueda
+        if (document.querySelector("title").textContent=="Fotos") {
+            API = "https://api.pexels.com/v1/search?query=" + texto.value;
+
+            // Crea la galería con los datos obtenidos o lanza un mensaje de "no coincidencias"
+            obtenerDatos(API).then(datosAPI => {
+                if (datosAPI.photos.length!=0) {
+                    crearGaleria('foto', datosAPI);
+                }else {
+                    alert("No se encontraron coincidencias");
+                }            
+            });
+
+        }else {
+            API = `https://api.pexels.com/videos/search?query=${texto.value}&orientation=portrait`;
+
+            // Crea la galería con los datos obtenidos o lanza un mensaje de "no coincidencias"
+            obtenerDatos(API).then(datosAPI => {
+                if (datosAPI.videos.length!=0) {
+                    crearGaleria('video', datosAPI);
+                }else {
+                    alert("No se encontraron coincidencias");
+                }   
+            });
+        }
+    }
+}   
 
 
 /**
@@ -125,16 +169,16 @@ function addFrases(frases) {
  * @param {Object} datosAPI - Objeto que contiene los datos de la API.
  * @param {Array} frases - Frases a agregar a la galería (se usa en la función addFrases).
  */
-function crearGaleria(tipo, datosAPI, frases) {
+function crearGaleria(tipo, datosAPI, frases = null) {
     let galeria = document.querySelector(".galeria");
 
     // Determina el tipo de contenido a mostrar (video o foto)
-    let elementos = tipo === 'video' ? datosAPI.videos : datosAPI.photos;
+    let elementos = tipo == 'video' ? datosAPI.videos : datosAPI.photos;
 
     // Construye los contenedores para cada elemento y asigna el contenido
     elementos.forEach((elemento) => {
         let content = crearElemento("div");
-        let media = tipo === 'video' ? crearElemento("video", {src: elemento.video_files[1].link}) : crearElemento("img", {src: elemento.src.portrait}, ["foto"]);
+        let media = tipo == 'video' ? crearElemento("video", {src: elemento.video_files[1].link}, ["video"]) : crearElemento("img", {src: elemento.src.portrait}, ["foto"]);
         let accion = crearElemento("div", {}, ["accion"]);
         let descargar = crearElemento("button", {}, ["accion", "descargar"]);
         let imgDescargar = crearElemento("img", {src:"img/descargar.svg"});
@@ -149,7 +193,9 @@ function crearGaleria(tipo, datosAPI, frases) {
     });
 
     // Agrega las frases según el tipo de galería
-    addFrases(frases);
+    if (frases!=null) {
+        addFrases(frases);
+    }
 }
 
 
@@ -203,3 +249,4 @@ function ubicacion() {
 
 // ================ INICIO ===============
 ubicacion();
+document.querySelector(".buscar").addEventListener("click", gestorBusquedas);
