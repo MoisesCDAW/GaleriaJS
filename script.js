@@ -79,7 +79,6 @@ function gestorBusquedas(){
         alert("Debes ingresar una palabra sin espacios ni números y solo letras");
 
     }else {
-        limpiarGaleria();
         let API;
 
         // Verifica que API se debe consultar según la página en la que se haga la búsqueda
@@ -89,6 +88,7 @@ function gestorBusquedas(){
             // Crea la galería con los datos obtenidos o lanza un mensaje de "no coincidencias"
             obtenerDatos(API).then(datosAPI => {
                 if (datosAPI.photos.length!=0) {
+                    limpiarGaleria();
                     crearGaleria('foto', datosAPI);
                 }else {
                     alert("No se encontraron coincidencias");
@@ -101,6 +101,7 @@ function gestorBusquedas(){
             // Crea la galería con los datos obtenidos o lanza un mensaje de "no coincidencias"
             obtenerDatos(API).then(datosAPI => {
                 if (datosAPI.videos.length!=0) {
+                    limpiarGaleria();
                     crearGaleria('video', datosAPI);
                 }else {
                     alert("No se encontraron coincidencias");
@@ -249,4 +250,5 @@ function ubicacion() {
 
 // ================ INICIO ===============
 ubicacion();
+document.querySelector(".form-busqueda").addEventListener("submit", (evento)=>evento.preventDefault());
 document.querySelector(".buscar").addEventListener("click", gestorBusquedas);

@@ -150,9 +150,13 @@ nav {
         .input-busqueda {
             width: 100%;
             margin-inline: 10px;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
+            
+            form {
+                width: 100%;
+                display: flex;
+                align-items: center;
+                justify-content: space-between;
+            }
 
             input {
                 margin-left: 15px;
