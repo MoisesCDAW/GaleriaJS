@@ -59,19 +59,70 @@ const APIDefectoVideos = "https://api.pexels.com/videos/search?query=sky&orienta
 
 
 /**
- * JSDoc
+ * Borra el contenedor "galería" y lo vuelve a crear dentro del contenedor ".content-galeria".
+ *
+ * @function limpiarGaleria
+ */
+function limpiarGaleria() {
+    document.querySelector(".galeria").remove();
+    let contentGaleria = document.querySelector(".content-galeria");
+    let galeria = crearElemento("div", {}, ["galeria"]);
+    contentGaleria.append(galeria);
+}
+
+
+/**
+ * Maneja los accesos rápidos a recursos como fotos o videos según el elemento sobre el que se haga clic.
+ * 
+ * La función busca el tipo de recurso (por ejemplo, "paisajes", "negocios", etc.) según la clase del elemento
+ * clickeado. Luego, dependiendo de la página actual (fotos o videos), construye la URL adecuada para buscar
+ * en la API de Pexels y actualiza la galería con los resultados correspondientes.
+ * 
+ * @function accesosRapidos
+ * @param {Event} elemento - utiliza para determinar qué tipo de recurso buscar (por ejemplo, 
+ *                          fotos o videos de paisajes, negocios, etc.).
+ * 
+ */
+function accesosRapidos(elemento){
+    let recursosABuscar;
+
+    // Busca que tipo de recursos hay que buscar según la clase del elemento. Ej.: paisajes, negocios, etc.
+    if (elemento.target.className != "accesos-rapidos") {
+        if (elemento.target.tagName=="DIV") {
+            recursosABuscar = elemento.target.querySelector("img").className;
+        }else {
+            recursosABuscar = elemento.target.className;
+        }
+    }
+
+    // Verificamos que tipo de página es la actual, si de fotos o videos.
+    let pagina = document.querySelector("title").textContent; 
+    let API;
+
+    limpiarGaleria(); // Borra los recursos de la anterior búsqueda
+
+    if (pagina=="Fotos") {
+        API = "https://api.pexels.com/v1/search?query=" + recursosABuscar;
+        obtenerDatos(API).then(datosAPI => crearGaleria('foto', datosAPI));
+    }else {
+        API = `https://api.pexels.com/videos/search?query=${recursosABuscar}&orientation=portrait`;
+        obtenerDatos(API).then(datosAPI => crearGaleria('video', datosAPI));
+    }
+}
+
+
+/**
+ * Gestiona las búsquedas de fotos o videos a través de una barra de búsqueda.
+ * 
+ * La función valida el texto ingresado por el usuario, asegurándose de que solo contenga letras (sin espacios ni números).
+ * Si el texto es válido, la función realiza una búsqueda en la API de Pexels según la página actual (Fotos o Videos).
+ * Si se encuentran resultados, actualiza la galería con las fotos o videos obtenidos. Si no hay resultados, 
+ * muestra un mensaje de "no coincidencias".
+ * 
+ * @function gestorBusquedas
  */
 function gestorBusquedas(){
     let texto = document.querySelector(".texto");
-
-    // Limpia la galería para mostrar los nuevos resultados
-    const limpiarGaleria = ()=>{
-        document.querySelector(".galeria").remove();
-        let contentGaleria = document.querySelector(".content-galeria");
-        let galeria = crearElemento("div", {}, ["galeria"]);
-        contentGaleria.append(galeria);
-    }
-
 
     // Valida el texto introducido
     let expresion = /^[a-zA-Z]+$/;
@@ -159,7 +210,7 @@ function addFrases(frases) {
         content.append(text);
         text.append(frase.frase);
     });
-}
+} 
 
 
 /**
@@ -239,16 +290,33 @@ async function obtenerDatos(API) {
 function ubicacion() {
     if (document.querySelector("title").textContent=="Fotos") {
         document.querySelector("#videos").classList.toggle("pag-no-actual");
-        obtenerDatos(APIDefectoFotos).then(datosAPI => crearGaleria('foto', datosAPI, frasesFotos));
+        // obtenerDatos(APIDefectoFotos).then(datosAPI => crearGaleria('foto', datosAPI, frasesFotos));
 
     }else {
         document.querySelector("#fotos").classList.toggle("pag-no-actual");
-        obtenerDatos(APIDefectoVideos).then(datosAPI => crearGaleria('video', datosAPI, frasesVideos));
+        // obtenerDatos(APIDefectoVideos).then(datosAPI => crearGaleria('video', datosAPI, frasesVideos));
     }
 }
 
 
+/**
+ * Gestiona los eventos principales de la web.
+ * 
+ * La función agrega los siguientes manejadores de eventos:
+ * 1. **submit** al formulario ".form-busqueda" para evitar que se recargue la página al enviar el formulario.
+ * 2. **click** al botón ".buscar" para activar la función "gestorBusquedas" cuando se haga clic.
+ * 3. **click** a los elementos ".accesos-rapidos" para activar la función "accesosRapidos" al hacer clic en un acceso rápido.
+ * 
+ * @function gestorEventos
+ */
+function gestorEventos() {
+    document.querySelector(".form-busqueda").addEventListener("submit", (evento)=>evento.preventDefault());
+    document.querySelector(".buscar").addEventListener("click", gestorBusquedas);
+    document.querySelector(".accesos-rapidos").addEventListener("click", accesosRapidos);
+}
+
+
 // ================ INICIO ===============
-ubicacion();
-document.querySelector(".form-busqueda").addEventListener("submit", (evento)=>evento.preventDefault());
-document.querySelector(".buscar").addEventListener("click", gestorBusquedas);
+ubicacion(); // Para imprimir recursos según el tipo de página
+gestorEventos(); // Para asignar los eventos
+

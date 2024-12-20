@@ -150,7 +150,7 @@ nav {
         .input-busqueda {
             width: 100%;
             margin-inline: 10px;
-            
+
             form {
                 width: 100%;
                 display: flex;
@@ -217,6 +217,11 @@ nav {
             span {
                 font-size: 14px;
             }
+        }
+
+        .acceso:hover {
+            cursor: pointer;
+            scale: 1.01;
         }
     }
 }

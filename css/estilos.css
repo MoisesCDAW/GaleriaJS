@@ -176,6 +176,10 @@ nav .pag-no-actual {
 .centro .accesos-rapidos .acceso span {
   font-size: 14px;
 }
+.centro .accesos-rapidos .acceso:hover {
+  cursor: pointer;
+  scale: 1.01;
+}
 
 .content-galeria {
   padding-inline: 20%;
