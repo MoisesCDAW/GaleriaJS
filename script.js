@@ -197,12 +197,12 @@ function crearElemento(tipo, atributos={}, clases=[]){
 /**
  * Agrega frases a la galería, posicionándolas según los estilos definidos en cada objeto de frase.
  * 
- * @function addFrases
+ * @function agregarFrases
  * @param {Array} frases - Un arreglo de objetos que contienen las frases y sus posiciones.
  * @property {string} frases[].frase - El texto de la frase a agregar.
  * @property {string} frases[].posicion - La posición CSS en la que se debe colocar la frase en la galería.
  */
-function addFrases(frases) {
+function agregarFrases(frases) {
     frases.forEach((frase)=>{
         let content = crearElemento("div", {style:`grid-area: ${frase.posicion};`}, ["frases"]);
         let text = crearElemento("p", {style:"font-size: 16px;"});
@@ -219,7 +219,7 @@ function addFrases(frases) {
  * @function crearGaleria
  * @param {string} tipo - El tipo de contenido a mostrar. Puede ser 'video' o 'foto'.
  * @param {Object} datosAPI - Objeto que contiene los datos de la API.
- * @param {Array} frases - Frases a agregar a la galería (se usa en la función addFrases).
+ * @param {Array} frases - Frases a agregar a la galería (se usa en la función agregarFrases).
  */
 function crearGaleria(tipo, datosAPI, frases = null) {
     let galeria = document.querySelector(".galeria");
@@ -230,7 +230,7 @@ function crearGaleria(tipo, datosAPI, frases = null) {
     // Construye los contenedores para cada elemento y asigna el contenido
     elementos.forEach((elemento) => {
         let content = crearElemento("div");
-        let media = tipo == 'video' ? crearElemento("video", {src: elemento.video_files[1].link}, ["video"]) : crearElemento("img", {src: elemento.src.portrait}, ["foto"]);
+        let media = tipo == 'video' ? crearElemento("video", {src: elemento.video_files[1].link, loading:"lazy"}, ["video"]) : crearElemento("img", {src: elemento.src.portrait, loading:"lazy"}, ["foto"]);
         let accion = crearElemento("div", {}, ["accion"]);
         let descargar = crearElemento("button", {}, ["accion", "descargar"]);
         let imgDescargar = crearElemento("img", {src:"img/descargar.svg"});
@@ -246,7 +246,7 @@ function crearGaleria(tipo, datosAPI, frases = null) {
 
     // Agrega las frases según el tipo de galería
     if (frases!=null) {
-        addFrases(frases);
+        agregarFrases(frases);
     }
 }
 
@@ -290,11 +290,11 @@ async function obtenerDatos(API) {
 function ubicacion() {
     if (document.querySelector("title").textContent=="Fotos") {
         document.querySelector("#videos").classList.toggle("pag-no-actual");
-        // obtenerDatos(APIDefectoFotos).then(datosAPI => crearGaleria('foto', datosAPI, frasesFotos));
+        obtenerDatos(APIDefectoFotos).then(datosAPI => crearGaleria('foto', datosAPI, frasesFotos));
 
     }else {
         document.querySelector("#fotos").classList.toggle("pag-no-actual");
-        // obtenerDatos(APIDefectoVideos).then(datosAPI => crearGaleria('video', datosAPI, frasesVideos));
+        obtenerDatos(APIDefectoVideos).then(datosAPI => crearGaleria('video', datosAPI, frasesVideos));
     }
 }
 
