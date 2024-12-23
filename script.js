@@ -54,7 +54,7 @@ const APIDefectoFotos = "https://api.pexels.com/v1/search?query=mountain";
 /**
  * API para mostrar videos por defecto al cargar la página en la sección "Videos"
  */
-const APIDefectoVideos = "https://api.pexels.com/videos/search?query=sky&orientation=portrait";
+const APIDefectoVideos = "https://api.pexels.com/videos/search?query=sky&orientation=landscape";
 
 
 /**
@@ -125,13 +125,8 @@ function borrarRecurso(recurso, tipo) {
  * El recurso debe tener la propiedad "target.id", que es el ID del recurso (foto o video).
  */
 function desmarcarRecurso(recurso) {
-    // Obtiene los recursos guardados en localStorage
     let recursos = localStorage.getItem("recursos");
-
-    // Obtiene el título de la página actual para determinar si estamos en Fotos o Videos
     let pagina = document.querySelector("title").textContent;
-
-    // Obtiene el ID del recurso que se está desmarcando
     let recursoID = recurso.target.id;
 
     // Obtiene el botón del recurso en el DOM y reemplaza la imagen de "guardado" por "guardar"
@@ -228,6 +223,7 @@ function marcadores() {
  */
 function marcarRecurso(recurso) {
     let recursos = localStorage.getItem("recursos");
+    let elemento = [recurso.target.id, recurso.target.title, recurso.target.alt];
 
     // Obtener el título de la página actual para determinar si es la página de fotos o videos
     let pagina = document.querySelector("title").textContent;
@@ -237,13 +233,13 @@ function marcarRecurso(recurso) {
         // Si estamos en la página de "Fotos", se agrega el recurso a la lista de fotos
         if (pagina=="Fotos") {
             recursos = {
-                fotos: [[recurso.target.id, recurso.target.title]],
+                fotos: [elemento],
                 videos: []
             }
         }else { // De lo contrario, se agrega el recurso a la lista de videos
             recursos = {
                 fotos: [],
-                videos: [[recurso.target.id, recurso.target.title]]
+                videos: [elemento]
             }
         }
 
@@ -252,9 +248,9 @@ function marcarRecurso(recurso) {
 
         // Agregar el recurso a la lista correspondiente según la página
         if (pagina=="Fotos") {
-            recursos.fotos.push([recurso.target.id, recurso.target.title]);
+            recursos.fotos.push(elemento);
         }else {
-            recursos.videos.push([recurso.target.id, recurso.target.title]);
+            recursos.videos.push(elemento);
         }
     }
 
@@ -281,8 +277,8 @@ function guardados() {
             let content = crearElemento("div");
             let media = tipo == 'video' ? crearElemento("video", {src: elemento[1], loading:"lazy"}, ["video"]) : crearElemento("img", {src: elemento[1], loading:"lazy"}, ["foto"]);
             let accion = crearElemento("div", {}, ["accion"]);
-            let descargar = crearElemento("button", {}, ["descargar"]);
-            let imgDescargar = crearElemento("img", {src:"img/descargar.svg", title: elemento[1], id:elemento[0]});
+            let descargar = tipo == 'video' ? crearElemento("a", {href:elemento[2]}, ["descargar"]) : crearElemento("a", {href:elemento[2]}, ["descargar"]);
+            let imgDescargar = crearElemento("img", {src:"img/descargar.svg", id:elemento[0]});
             let borrar = crearElemento("button", {}, ["borrar"]);
             let imgBorrar = crearElemento("img", {src:"img/papelera.svg", id:elemento[0]});
     
@@ -358,7 +354,7 @@ function accesosRapidos(elemento){
         API = "https://api.pexels.com/v1/search?query=" + recursosABuscar;
         obtenerDatos(API).then(datosAPI => crearGaleria('foto', datosAPI));
     }else {
-        API = `https://api.pexels.com/videos/search?query=${recursosABuscar}&orientation=portrait`;
+        API = `https://api.pexels.com/videos/search?query=${recursosABuscar}&orientation=landscape`;
         obtenerDatos(API).then(datosAPI => crearGaleria('video', datosAPI));
     }
 }
@@ -409,9 +405,9 @@ function gestorBusquedas(){
         }else {
 
             if (filtro!="null") {
-                API = `https://api.pexels.com/videos/search?query=${texto.value}&orientation=portrait&size=${filtro}`;
+                API = `https://api.pexels.com/videos/search?query=${texto.value}&orientation=landscape&size=${filtro}`;
             }else {
-                API = `https://api.pexels.com/videos/search?query=${texto.value}&orientation=portrait`;
+                API = `https://api.pexels.com/videos/search?query=${texto.value}&orientation=landscape`;
             }
             
 
@@ -498,10 +494,10 @@ function crearGaleria(tipo, datosAPI, frases = null) {
         let content = crearElemento("div");
         let media = tipo == 'video' ? crearElemento("video", {src: elemento.video_files[1].link, loading:"lazy"}, ["video"]) : crearElemento("img", {src: elemento.src.portrait, loading:"lazy"}, ["foto"]);
         let accion = crearElemento("div", {}, ["accion"]);
-        let descargar = crearElemento("button", {}, ["descargar"]);
-        let imgDescargar = tipo == 'video' ? crearElemento("img", {src:"img/descargar.svg", title: elemento.video_files[1].link}) : crearElemento("img", {src:"img/descargar.svg", title: elemento.src.portrait});
+        let descargar = tipo == 'video' ? crearElemento("a", {href:elemento.url}, ["descargar"]) : crearElemento("a", {href:elemento.url}, ["descargar"]);
+        let imgDescargar = crearElemento("img", {src:"img/descargar.svg"});
         let guardar = crearElemento("button", {}, ["guardar"]);
-        let imgGuardar = tipo == 'video' ? crearElemento("img", {src:"img/guardar.svg", title: elemento.video_files[1].link, id:elemento.id}) : crearElemento("img", {src:"img/guardar.svg", title: elemento.src.portrait, id:elemento.id});
+        let imgGuardar = tipo == 'video' ? crearElemento("img", {src:"img/guardar.svg", title: elemento.video_files[1].link, id:elemento.id, alt:elemento.url}) : crearElemento("img", {src:"img/guardar.svg", title: elemento.src.portrait, id:elemento.id, alt:elemento.url});
 
         galeria.append(content);
         content.append(media, accion);

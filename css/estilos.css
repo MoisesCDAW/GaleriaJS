@@ -242,7 +242,7 @@ nav .pag-no-actual {
 .content-galeria .galeria div .accion {
   padding: 5%;
 }
-.content-galeria .galeria div .accion button {
+.content-galeria .galeria div .accion a, .content-galeria .galeria div .accion button {
   opacity: 0.8;
   visibility: hidden;
   border: none;
