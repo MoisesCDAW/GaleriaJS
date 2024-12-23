@@ -292,7 +292,6 @@ nav {
             }
 
             .accion {
-                align-self: flex-end;
                 padding: 5%;
 
                 button {
@@ -312,19 +311,20 @@ nav {
                 }
 
                 img{
+                    padding: 10px;
                     border-radius: 0;
-                    width: 16px;
-                    height: 16px;
+                    width: 38px;
+                    height: 38px;
                 }
             }
 
         }
 
         div:hover {
-            .foto {
+            .foto, .video {
                 opacity: 0.8;
             }
-            .descargar, .guardar {
+            .descargar, .guardar, .borrar {
                 visibility: visible;
             }
         }
@@ -339,7 +339,6 @@ nav {
 
             p {
                 font-family: $fuentePrincipal;
-                // color: $textClaro;
                 display: flex;
                 align-items: center;
             }
@@ -365,4 +364,23 @@ footer {
         letter-spacing: 1px;
         font-weight: 100;
     }
+}
+
+
+// ============================  GUARDADOS  =================================
+.volver {
+    width: 50px;
+    position: absolute;
+    left: 50px;
+    top: 20px; 
+
+    img {
+        width: 32px;
+        height: 32px;
+    }
+}
+
+.tipo-recurso {
+    margin-top: 40px;
+    font-size: 14px;
 }

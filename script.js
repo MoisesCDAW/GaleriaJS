@@ -1,5 +1,6 @@
 // Filtros Imágenes: Por orientación (landscape, portrait o square) o color (ej: red, orange, etc...)
 // Filtros Videos: Por calidad (ej: sd, hd o uhd)
+// Asignar un nombre a la página
 
 /**
  * Frases por defecto que cargan siempre en la misma posición en la galería.
@@ -30,22 +31,23 @@ const frasesFotos = [
  */
 const frasesVideos = [
     {
-        frase: "Fotos para cada necesidad, al alcance de un clic y totalmente gratuitas.",
+        frase: "Explora una amplia variedad de videos gratuitos, perfectos para cualquier proyecto.",
         posicion: "1 / 1 / 2 / 2"
     },
     {
-        frase: "Descubre el poder de una buena imagen para llevar tus proyectos al siguiente nivel.",
+        frase: "Transforma tus ideas con videos impactantes que capturan la esencia de tu mensaje.",
         posicion: "2 / 3 / 3 / 4"
     },
     {
-        frase: "Cada imagen es una oportunidad para contar una historia, elige la tuya.",
+        frase: "Cada video tiene el poder de transmitir emociones, elige el que conecte con tu audiencia.",
         posicion: "4 / 3 / 5 / 4"
     },
     {
-        frase: "De lo clásico a lo moderno: encuentra la foto perfecta para tu visión.",
+        frase: "Desde contenido inspirador hasta tutoriales prácticos: encuentra el video ideal para ti.",
         posicion: "5 / 1 / 6 / 2"
     }
 ];
+
 
 /**
  * API para mostrar imágenes por defecto al cargar la página en la sección "Fotos"
@@ -66,8 +68,262 @@ const APIDefectoVideos = "https://api.pexels.com/videos/search?query=sky&orienta
 function limpiarGaleria() {
     document.querySelector(".galeria").remove();
     let contentGaleria = document.querySelector(".content-galeria");
-    let galeria = crearElemento("div", {}, ["galeria"]);
-    contentGaleria.append(galeria);
+    let nuevaGaleria = crearElemento("div", {}, ["galeria"]);;
+    contentGaleria.append(nuevaGaleria);
+}
+
+
+/**
+ * Borra un recurso (foto o video) de la galería de guardados y lo elimina del almacenamiento local ("localStorage").
+ * Dependiendo del tipo de recurso ("foto" o "video"), se elimina de la lista correspondiente en "localStorage".
+ * Después de eliminar el recurso, la página se recarga para reflejar los cambios.
+ * 
+ * @function borrarRecurso
+ * @param {Event} recurso - El evento que contiene el recurso a borrar. El recurso debe tener la propiedad `target.id`,
+ * que es el ID del recurso (foto o video) que se va a eliminar.
+ * 
+ * @param {string} tipo - El tipo de recurso que se va a borrar. Puede ser "foto" o "video", y determina de qué lista 
+ * (fotos o videos) se debe eliminar el recurso.
+ * 
+ */
+function borrarRecurso(recurso, tipo) {
+    // Obtener los recursos guardados en localStorage
+    let recursos = localStorage.getItem("recursos");
+    
+    // Si hay recursos guardados, procede a eliminarlos
+    if (recursos) {
+        recursos = JSON.parse(recursos);
+
+        if (tipo=="foto") {
+            for (let i = 0; i < recursos.fotos.length; i++) {
+                if (recursos.fotos[i][0]==recurso.target.id) {
+                    recursos.fotos.splice(i, 1); // Eliminar el recurso de la lista de fotos
+                }
+            }
+        }else {
+            for (let i = 0; i < recursos.videos.length; i++) {
+                if (recursos.videos[i][0]==recurso.target.id) {
+                    recursos.videos.splice(i, 1); // Eliminar el recurso de la lista de videos
+                }
+            }
+        }
+    }
+
+    // Actualiza la lista de recursos guardada en "localStorage"
+    recursos = JSON.stringify(recursos);
+    localStorage.setItem("recursos", recursos);
+
+    // Actualiza la página para reflejar los cambios
+    location.reload();
+}
+
+
+/**
+ * Desmarca un recurso (foto o video) en la interfaz de usuario, reemplazando la imagen de "guardado" 
+ * por la imagen de "guardar" y habilitando nuevamente el botón para permitir marcarlo. 
+ * También elimina el recurso del almacenamiento en "localStorage" en la categoría correspondiente (fotos o videos).
+ * 
+ * @function desmarcarRecurso
+ * @param {Event} recurso - El evento que contiene el recurso a desmarcar.
+ * El recurso debe tener la propiedad "target.id", que es el ID del recurso (foto o video).
+ */
+function desmarcarRecurso(recurso) {
+    // Obtiene los recursos guardados en localStorage
+    let recursos = localStorage.getItem("recursos");
+
+    // Obtiene el título de la página actual para determinar si estamos en Fotos o Videos
+    let pagina = document.querySelector("title").textContent;
+
+    // Obtiene el ID del recurso que se está desmarcando
+    let recursoID = recurso.target.id;
+
+    // Obtiene el botón del recurso en el DOM y reemplaza la imagen de "guardado" por "guardar"
+    let boton = document.querySelector("[id='"+recursoID+"']").parentNode;
+    let nuevaImg = crearElemento("img", {src: "img/guardar.svg", id:recursoID});
+
+    // Elimina la imagen de "guardado" y agregar la imagen de "guardar"
+    document.querySelector("[id='"+recursoID+"']").remove();
+    boton.append(nuevaImg);
+
+    // Añade un evento para volver a marcar el recurso
+    nuevaImg.addEventListener("click", marcarRecurso);
+    
+    // Si hay recursos en "localStorage", borra el que se desmarcó
+    if (recursos) {
+        recursos = JSON.parse(recursos);
+
+        if (pagina=="Fotos") {
+            for (let i = 0; i < recursos.fotos.length; i++) {
+                if (recursos.fotos[i][0]==recursoID) {
+                    recursos.fotos.splice(i, 1);
+                }
+            }
+        }else {
+            for (let i = 0; i < recursos.videos.length; i++) {
+                if (recursos.videos[i][0]==recursoID) {
+                    recursos.videos.splice(i, 1);
+                }
+            }
+        }
+    }
+
+    // Actualiza la lista de recursos guardada en "localStorage"
+    recursos = JSON.stringify(recursos);
+    localStorage.setItem("recursos", recursos);
+}
+
+
+/**
+ * Actualiza los recursos marcados (fotos o videos) en la interfaz de usuario.
+ * Obtiene los recursos guardados en "localStorage" y dependiendo de la página actual (Fotos o Videos),
+ * marca los recursos correspondientes, cambiando el icono a uno de "guardado" y deshabilitando el botón.
+ * 
+ * @function marcadores
+ */
+function marcadores() {
+    let recursos = localStorage.getItem("recursos");
+    let pagina = document.querySelector("title").textContent;
+
+    /* Marca un recurso en la interfaz de usuario, reemplazando el botón con una imagen de "guardado"
+    y deshabilitando el botón para evitar interacciones adicionales. */
+    let marcar = (recursoID)=>{
+        let boton = document.querySelector("[id='"+recursoID+"']");
+
+        if (boton) {
+            boton = boton.parentNode;
+            let nuevaImg = crearElemento("img", {src: "img/guardado.svg", id:recursoID});
+
+            // Elimina la imagen orignal del botón
+            document.querySelector("[id='"+recursoID+"']").remove();
+            
+            // Añade la nueva imagen de guardado y deshabilita el botón
+            boton.append(nuevaImg);
+            boton.setAttribute("disabled", "disabled");
+
+            // Añade un evento para desmarcar el recurso cuando se haga clic en la imagen
+            nuevaImg.addEventListener("click", desmarcarRecurso);
+        }
+    }
+
+    // Si hay recursos guardados, se marcan como guardados con la respectiva img
+    if (recursos) {
+        recursos = JSON.parse(recursos);
+
+        if (pagina=="Fotos") {
+            recursos.fotos.forEach((foto)=>marcar(foto[0]));
+        }else {
+            recursos.videos.forEach((video)=>marcar(video[0]));
+        }
+    }
+}
+
+
+/**
+ * Marca un recurso (foto o video) y lo guarda en el "localStorage" en la sección correspondiente
+ * (fotos o videos) dependiendo de la página actual. Si no hay recursos previamente guardados,
+ * crea una nueva estructura de almacenamiento en "localStorage" para fotos o videos.
+ * Luego, actualiza la vista llamando a la función "marcadores()".
+ *
+ * @function marcarRecurso
+ * @param {Event} recurso - El evento que contiene el recurso que se va a marcar.
+ * El recurso debe tener las propiedades "target.id" (el ID del recurso) y "target.title" (el título del recurso).
+ * 
+ */
+function marcarRecurso(recurso) {
+    let recursos = localStorage.getItem("recursos");
+
+    // Obtener el título de la página actual para determinar si es la página de fotos o videos
+    let pagina = document.querySelector("title").textContent;
+
+    if (!recursos) {
+
+        // Si estamos en la página de "Fotos", se agrega el recurso a la lista de fotos
+        if (pagina=="Fotos") {
+            recursos = {
+                fotos: [[recurso.target.id, recurso.target.title]],
+                videos: []
+            }
+        }else { // De lo contrario, se agrega el recurso a la lista de videos
+            recursos = {
+                fotos: [],
+                videos: [[recurso.target.id, recurso.target.title]]
+            }
+        }
+
+    }else {
+        recursos = JSON.parse(recursos);
+
+        // Agregar el recurso a la lista correspondiente según la página
+        if (pagina=="Fotos") {
+            recursos.fotos.push([recurso.target.id, recurso.target.title]);
+        }else {
+            recursos.videos.push([recurso.target.id, recurso.target.title]);
+        }
+    }
+
+    // Convertir la estructura de recursos de nuevo a JSON y guardarla en localStorage
+    recursos = JSON.stringify(recursos);
+    localStorage.setItem("recursos", recursos);
+
+    // Llamar a la función marcadores() para actualizar la vista
+    marcadores();
+}
+
+
+/**
+ * Función que carga los recursos guardados desde el `localStorage` y los muestra en una galería correspondiente.
+ * Para cada tipo de recurso (foto o video), se crea un contenedor con la opción de descargar o borrar.
+ * 
+ * @function guardados
+ */
+function guardados() {
+
+    // Genera los elementos HTML necesarios para mostrar el contenido de los recursos guardados.
+    let galeriaGuardados = (elementos, galeria, tipo)=>{
+        elementos.forEach((elemento) => {
+            let content = crearElemento("div");
+            let media = tipo == 'video' ? crearElemento("video", {src: elemento[1], loading:"lazy"}, ["video"]) : crearElemento("img", {src: elemento[1], loading:"lazy"}, ["foto"]);
+            let accion = crearElemento("div", {}, ["accion"]);
+            let descargar = crearElemento("button", {}, ["descargar"]);
+            let imgDescargar = crearElemento("img", {src:"img/descargar.svg", title: elemento[1], id:elemento[0]});
+            let borrar = crearElemento("button", {}, ["borrar"]);
+            let imgBorrar = crearElemento("img", {src:"img/papelera.svg", id:elemento[0]});
+    
+            galeria.append(content);
+            content.append(media, accion);
+            accion.append(descargar, borrar);
+            descargar.append(imgDescargar);
+            borrar.append(imgBorrar);
+
+            // Se agrega el evento para borrar el recurso
+            borrar.addEventListener("click", (recurso)=>{
+                borrarRecurso(recurso, tipo);
+            });
+        });
+    };
+
+    
+    // Recupera los recursos del localStorage
+    let recursos = localStorage.getItem("recursos");
+
+    if (!recursos) {
+        console.log("Vacío");
+    }else {
+        recursos = JSON.parse(recursos);
+        let galeria;
+
+        // Si hay fotos guardadas, las agrega a la galería de fotos
+        if (recursos.fotos.length!=0) {
+            galeria = document.querySelector("[class~='galeria-fotos']");
+            galeriaGuardados(recursos.fotos, galeria, "foto");
+        }
+
+        // Si hay videos guardados, los agrega a la galería de videos
+        if (recursos.videos.length!=0) {
+            galeria = document.querySelector("[class~='galeria-videos']");
+            galeriaGuardados(recursos.videos, galeria, "video");
+        }
+    }
 }
 
 
@@ -141,6 +397,8 @@ function gestorBusquedas(){
                 if (datosAPI.photos.length!=0) {
                     limpiarGaleria();
                     crearGaleria('foto', datosAPI);
+                    gestorEventos(); // Para asignar los eventos
+                    marcadores()
                 }else {
                     alert("No se encontraron coincidencias");
                 }            
@@ -154,6 +412,8 @@ function gestorBusquedas(){
                 if (datosAPI.videos.length!=0) {
                     limpiarGaleria();
                     crearGaleria('video', datosAPI);
+                    gestorEventos(); // Para asignar los eventos
+                    marcadores()
                 }else {
                     alert("No se encontraron coincidencias");
                 }   
@@ -232,10 +492,10 @@ function crearGaleria(tipo, datosAPI, frases = null) {
         let content = crearElemento("div");
         let media = tipo == 'video' ? crearElemento("video", {src: elemento.video_files[1].link, loading:"lazy"}, ["video"]) : crearElemento("img", {src: elemento.src.portrait, loading:"lazy"}, ["foto"]);
         let accion = crearElemento("div", {}, ["accion"]);
-        let descargar = crearElemento("button", {}, ["accion", "descargar"]);
-        let imgDescargar = crearElemento("img", {src:"img/descargar.svg"});
-        let guardar = crearElemento("button", {}, ["accion", "guardar"]);
-        let imgGuardar = crearElemento("img", {src:"img/guardar.svg"});
+        let descargar = crearElemento("button", {}, ["descargar"]);
+        let imgDescargar = tipo == 'video' ? crearElemento("img", {src:"img/descargar.svg", title: elemento.video_files[1].link}) : crearElemento("img", {src:"img/descargar.svg", title: elemento.src.portrait});
+        let guardar = crearElemento("button", {}, ["guardar"]);
+        let imgGuardar = tipo == 'video' ? crearElemento("img", {src:"img/guardar.svg", title: elemento.video_files[1].link, id:elemento.id}) : crearElemento("img", {src:"img/guardar.svg", title: elemento.src.portrait, id:elemento.id});
 
         galeria.append(content);
         content.append(media, accion);
@@ -248,6 +508,9 @@ function crearGaleria(tipo, datosAPI, frases = null) {
     if (frases!=null) {
         agregarFrases(frases);
     }
+
+    gestorEventos(); // Para asignar los eventos
+    marcadores();
 }
 
 
@@ -292,9 +555,11 @@ function ubicacion() {
         document.querySelector("#videos").classList.toggle("pag-no-actual");
         obtenerDatos(APIDefectoFotos).then(datosAPI => crearGaleria('foto', datosAPI, frasesFotos));
 
-    }else {
+    }else if(document.querySelector("title").textContent=="Videos"){
         document.querySelector("#fotos").classList.toggle("pag-no-actual");
         obtenerDatos(APIDefectoVideos).then(datosAPI => crearGaleria('video', datosAPI, frasesVideos));
+    }else {
+        guardados();
     }
 }
 
@@ -306,6 +571,7 @@ function ubicacion() {
  * 1. **submit** al formulario ".form-busqueda" para evitar que se recargue la página al enviar el formulario.
  * 2. **click** al botón ".buscar" para activar la función "gestorBusquedas" cuando se haga clic.
  * 3. **click** a los elementos ".accesos-rapidos" para activar la función "accesosRapidos" al hacer clic en un acceso rápido.
+ * 4. **click** al botón "guardados" para ir a la sección de recursos guardados
  * 
  * @function gestorEventos
  */
@@ -313,10 +579,11 @@ function gestorEventos() {
     document.querySelector(".form-busqueda").addEventListener("submit", (evento)=>evento.preventDefault());
     document.querySelector(".buscar").addEventListener("click", gestorBusquedas);
     document.querySelector(".accesos-rapidos").addEventListener("click", accesosRapidos);
+    document.querySelectorAll(".guardar").forEach((x)=>x.addEventListener("click", marcarRecurso));
+    
 }
 
 
 // ================ INICIO ===============
 ubicacion(); // Para imprimir recursos según el tipo de página
-gestorEventos(); // Para asignar los eventos
-
+// localStorage.clear();

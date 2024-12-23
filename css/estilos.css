@@ -240,7 +240,6 @@ nav .pag-no-actual {
   position: absolute;
 }
 .content-galeria .galeria div .accion {
-  align-self: flex-end;
   padding: 5%;
 }
 .content-galeria .galeria div .accion button {
@@ -259,14 +258,15 @@ nav .pag-no-actual {
   margin-bottom: 6%;
 }
 .content-galeria .galeria div .accion img {
+  padding: 10px;
   border-radius: 0;
-  width: 16px;
-  height: 16px;
+  width: 38px;
+  height: 38px;
 }
-.content-galeria .galeria div:hover .foto {
+.content-galeria .galeria div:hover .foto, .content-galeria .galeria div:hover .video {
   opacity: 0.8;
 }
-.content-galeria .galeria div:hover .descargar, .content-galeria .galeria div:hover .guardar {
+.content-galeria .galeria div:hover .descargar, .content-galeria .galeria div:hover .guardar, .content-galeria .galeria div:hover .borrar {
   visibility: visible;
 }
 .content-galeria .galeria .frases {
@@ -297,4 +297,20 @@ footer h1 {
   color: white;
   letter-spacing: 1px;
   font-weight: 100;
+}
+
+.volver {
+  width: 50px;
+  position: absolute;
+  left: 50px;
+  top: 20px;
+}
+.volver img {
+  width: 32px;
+  height: 32px;
+}
+
+.tipo-recurso {
+  margin-top: 40px;
+  font-size: 14px;
 }/*# sourceMappingURL=estilos.css.map */
