@@ -397,8 +397,6 @@ function gestorBusquedas(){
                 if (datosAPI.photos.length!=0) {
                     limpiarGaleria();
                     crearGaleria('foto', datosAPI);
-                    gestorEventos(); // Para asignar los eventos
-                    marcadores()
                 }else {
                     alert("No se encontraron coincidencias");
                 }            
@@ -412,8 +410,6 @@ function gestorBusquedas(){
                 if (datosAPI.videos.length!=0) {
                     limpiarGaleria();
                     crearGaleria('video', datosAPI);
-                    gestorEventos(); // Para asignar los eventos
-                    marcadores()
                 }else {
                     alert("No se encontraron coincidencias");
                 }   
