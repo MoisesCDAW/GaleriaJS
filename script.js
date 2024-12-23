@@ -273,7 +273,7 @@ function guardados() {
 
     // Genera los elementos HTML necesarios para mostrar el contenido de los recursos guardados.
     let galeriaGuardados = (elementos, galeria, tipo)=>{
-        elementos.forEach((elemento) => {
+        elementos.map((elemento) => {
             let content = crearElemento("div");
             let media = tipo == 'video' ? crearElemento("video", {src: elemento[1], loading:"lazy"}, ["video"]) : crearElemento("img", {src: elemento[1], loading:"lazy"}, ["foto"]);
             let accion = crearElemento("div", {}, ["accion"]);
@@ -490,7 +490,7 @@ function crearGaleria(tipo, datosAPI, frases = null) {
     let elementos = tipo == 'video' ? datosAPI.videos : datosAPI.photos;
 
     // Construye los contenedores para cada elemento y asigna el contenido
-    elementos.forEach((elemento) => {
+    elementos.map((elemento) => {
         let content = crearElemento("div");
         let media = tipo == 'video' ? crearElemento("video", {src: elemento.video_files[1].link, loading:"lazy"}, ["video"]) : crearElemento("img", {src: elemento.src.portrait, loading:"lazy"}, ["foto"]);
         let accion = crearElemento("div", {}, ["accion"]);
