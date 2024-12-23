@@ -11,7 +11,7 @@
         <!-- Logo -->
         <div>
             <img src="img/capas.svg">
-            <a href="videos.html">WebSite</a>
+            <a href="videos.html">Pixora</a>
         </div>
 
         <!-- Botones de búsqueda por tipo de recurso -->
@@ -37,8 +37,14 @@
 
             <!-- Filtros -->
             <div class="filtro">
-                <button><img src="img/ajustes.png"></button>
-                <span>Filtros</span>
+                <select class="selector-filtro">
+                    <option value="null" selected>Filtros</option>
+                    <optgroup label="Calidad">
+                        <option value="large">4K</option>
+                        <option value="medium">Full HD</option>
+                        <option value="small">HD</option>
+                    </optgroup>
+                </select>
             </div>
 
             <!-- Barra y botón de búsqueda -->

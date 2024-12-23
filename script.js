@@ -1,6 +1,3 @@
-// Filtros Imágenes: Por orientación (landscape, portrait o square) o color (ej: red, orange, etc...)
-// Filtros Videos: Por calidad (ej: sd, hd o uhd)
-// Asignar un nombre a la página
 
 /**
  * Frases por defecto que cargan siempre en la misma posición en la galería.
@@ -20,7 +17,7 @@ const frasesFotos = [
         posicion: "4 / 3 / 5 / 4"
     },
     {
-        frase: "De lo clásico a lo moderno: encuentra la foto perfecta para tu visión.",
+        frase: "De lo clásico a lo moderno: encuentra la foto perfecta para tu visión.", 
         posicion: "5 / 1 / 6 / 2"
     }
 ];
@@ -52,7 +49,7 @@ const frasesVideos = [
 /**
  * API para mostrar imágenes por defecto al cargar la página en la sección "Fotos"
  */
-const APIDefectoFotos = "https://api.pexels.com/v1/search?query=sky";
+const APIDefectoFotos = "https://api.pexels.com/v1/search?query=mountain";
 
 /**
  * API para mostrar videos por defecto al cargar la página en la sección "Videos"
@@ -384,13 +381,20 @@ function gestorBusquedas(){
     let expresion = /^[a-zA-Z]+$/;
     if (!expresion.test(texto.value)) {
         alert("Debes ingresar una palabra sin espacios ni números y solo letras");
+        console.log(document.querySelector(".selector-filtro").value);
 
     }else {
         let API;
+        let filtro = document.querySelector(".selector-filtro").value;
 
         // Verifica que API se debe consultar según la página en la que se haga la búsqueda
         if (document.querySelector("title").textContent=="Fotos") {
-            API = "https://api.pexels.com/v1/search?query=" + texto.value;
+
+            if (filtro!="null") {
+                API = `https://api.pexels.com/v1/search?query=${texto.value}&color=${filtro}`;
+            }else {
+                API = `https://api.pexels.com/v1/search?query=${texto.value}`;
+            }
 
             // Crea la galería con los datos obtenidos o lanza un mensaje de "no coincidencias"
             obtenerDatos(API).then(datosAPI => {
@@ -403,7 +407,13 @@ function gestorBusquedas(){
             });
 
         }else {
-            API = `https://api.pexels.com/videos/search?query=${texto.value}&orientation=portrait`;
+
+            if (filtro!="null") {
+                API = `https://api.pexels.com/videos/search?query=${texto.value}&orientation=portrait&size=${filtro}`;
+            }else {
+                API = `https://api.pexels.com/videos/search?query=${texto.value}&orientation=portrait`;
+            }
+            
 
             // Crea la galería con los datos obtenidos o lanza un mensaje de "no coincidencias"
             obtenerDatos(API).then(datosAPI => {

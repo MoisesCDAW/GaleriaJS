@@ -11,7 +11,7 @@
         <!-- Logo -->
         <div>
             <img src="img/capas.svg">
-            <a href="index.html">WebSite</a>
+            <a href="index.html">Pixora</a>
         </div>
 
         <!-- Botones de búsqueda por tipo de recurso -->
@@ -37,8 +37,16 @@
 
             <!-- Filtros -->
             <div class="filtro">
-                <button><img src="img/ajustes.png"></button>
-                <span>Filtros</span>
+                <select class="selector-filtro">
+                    <option value="null" selected>Filtros</option>
+                    <optgroup label="Color">
+                        <option value="black">Negro</option>
+                        <option value="white">Blanco</option>
+                        <option value="blue">Azul</option>
+                        <option value="red">Rojo</option>
+                        <option value="green">Verde</option>
+                    </optgroup>
+                </select>
             </div>
 
             <!-- Barra y botón de búsqueda -->
@@ -98,7 +106,7 @@
     </section>
 
     <footer>
-        <h1>Lorem ipsum, dolor sit amet consectetur adipisicing elit.</h1>
+        <h1>Lorem ipsum, sit amet consectetur adipisicing elit.</h1>
     </footer>
 
     <script src="script.js" type="module"></script>

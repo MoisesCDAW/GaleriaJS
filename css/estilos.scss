@@ -124,26 +124,25 @@ nav {
         align-items: center;
         background-color: white;
 
+
+        // ===== Filtro ===== 
         .filtro {
             width: 180px;
             border-right: 2px solid rgba(0, 0, 0, 0.257);
             height: 50px;
-            padding-inline: 20px;
             display: flex;
             align-items: center;
-            gap: 15px;
-            cursor: pointer;
-            
-            button {
-                background: none;
-                border: none;
-                padding: 0;
+
+            .selector-filtro{
+                outline: none;
+                font-family: $fuentePrincipal;
+                padding-left: 50px;
                 cursor: pointer;
-    
-                img {
-                    max-width: 20px;
-                    max-height: 20px;
-                }
+                border: none;
+                appearance: none;
+                width: 100%;
+                height: 100%;
+                background: url("../img/ajustes.png") no-repeat 15% center / 18px;
             }
         }
 
